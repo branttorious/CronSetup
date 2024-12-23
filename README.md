@@ -35,22 +35,11 @@ source ~/automation/configs/env.sh
 # Define script name for logging
 SCRIPT_NAME=$(basename "$0")
 
-# Define log file
-LOG_FILE=~/automation/logs/${SCRIPT_NAME%.*}.log
-
-# Log function
-log() {
-    echo "[$(date +"%Y-%m-%d %H:%M:%S")] $1" | tee -a "$LOG_FILE"
-}
-
-# Start script
-log "Starting $SCRIPT_NAME"
-
 # Main script logic here
-# Example: log "Running task XYZ"
+
 
 # End script
-log "Completed $SCRIPT_NAME"
+
 ```
 
 #### Usage:
