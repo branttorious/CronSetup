@@ -141,7 +141,7 @@ Create and manage cron jobs systematically.
 
 ### **6. Automating New Script and Cronjob Creation**
 - **Create script to combine steps above
-``````
+
 ---
 
 ### **7. Backup and Recovery**
