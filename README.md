@@ -226,7 +226,7 @@ if [[ "$cron_choice" =~ ^[Yy]$ ]]; then
 else
     echo "Cron job setup skipped."
 fi
-```bash
+```
 ---
 
 ### **7. Backup and Recovery**
