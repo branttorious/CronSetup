@@ -141,7 +141,91 @@ Create and manage cron jobs systematically.
 
 ### **6. Automating New Script and Cronjob Creation**
 - **Create script to combine steps above
+```#!/bin/bash
 
+# Prompt for the new script name
+read -p "Enter the name of the new script (e.g., my_new_script.sh): " script_name
+
+# Define paths
+TEMPLATE_PATH=~/automation/configs/script_template.sh
+SCRIPTS_DIR=~/automation/scripts
+LOG_FILE=~/automation/logs/cron_job_creation.log
+NEW_SCRIPT_PATH="$SCRIPTS_DIR/$script_name"
+WRAPPER_SCRIPT=~/automation/scripts/cron_wrapper.sh
+
+# Check if the template exists
+if [ ! -f "$TEMPLATE_PATH" ]; then
+    echo "Error: Template script not found at $TEMPLATE_PATH."
+    exit 1
+fi
+
+# Check if the scripts directory exists
+if [ ! -d "$SCRIPTS_DIR" ]; then
+    echo "Scripts directory not found. Creating $SCRIPTS_DIR."
+    mkdir -p "$SCRIPTS_DIR"
+fi
+
+# Copy the template to the new script path
+cp "$TEMPLATE_PATH" "$NEW_SCRIPT_PATH"
+
+# Make the new script executable
+chmod +x "$NEW_SCRIPT_PATH"
+
+# Confirm the script was created successfully
+if [ -f "$NEW_SCRIPT_PATH" ]; then
+    echo "New script created at $NEW_SCRIPT_PATH"
+    
+    # Ask if the user wants to edit the script immediately
+    read -p "Do you want to edit the script now? (y/n): " edit_choice
+    if [[ "$edit_choice" =~ ^[Yy]$ ]]; then
+        nano "$NEW_SCRIPT_PATH"
+    else
+        echo "You can edit it later by running: nano $NEW_SCRIPT_PATH"
+    fi
+else
+    echo "Error: Failed to create the new script."
+    exit 1
+fi
+
+# Prompt for setting up a cron job
+read -p "Do you want to set up a cron job for this script? (y/n): " cron_choice
+if [[ "$cron_choice" =~ ^[Yy]$ ]]; then
+    echo "Set up the cron job frequency:"
+    echo "1. Every minute"
+    echo "2. Every hour"
+    echo "3. Daily"
+    echo "4. Weekly"
+    echo "5. Monthly"
+    echo "6. Custom (enter your own cron schedule)"
+    read -p "Choose an option (1-6): " frequency_choice
+    
+    case $frequency_choice in
+        1) cron_schedule="* * * * *" ;;
+        2) cron_schedule="0 * * * *" ;;
+        3) cron_schedule="0 0 * * *" ;;
+        4) cron_schedule="0 0 * * 0" ;;
+        5) cron_schedule="0 0 1 * *" ;;
+        6) 
+            read -p "Enter your custom cron schedule (e.g., '0 5 * * 1'): " custom_schedule
+            cron_schedule="$custom_schedule"
+            ;;
+        *) 
+            echo "Invalid option. Exiting."
+            exit 1
+            ;;
+    esac
+    
+    # Add the cron job
+    cron_job="$cron_schedule $WRAPPER_SCRIPT $NEW_SCRIPT_PATH"
+    (crontab -l 2>/dev/null; echo "$cron_job") | crontab -
+    
+    # Log the cron job creation
+    echo "[$(date +"%Y-%m-%d %H:%M:%S")] Added cron job: $cron_job" >> "$LOG_FILE"
+    echo "Cron job added successfully. Logged to $LOG_FILE."
+else
+    echo "Cron job setup skipped."
+fi
+```
 ---
 
 ### **7. Backup and Recovery**
