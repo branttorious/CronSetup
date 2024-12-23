@@ -139,7 +139,12 @@ Create and manage cron jobs systematically.
 
 ---
 
-### **6. Backup and Recovery**
+### **6. Automating New Script and Cronjob Creation**
+- **Create script to combine steps above
+``````
+---
+
+### **7. Backup and Recovery**
 - **Backup Cron Configurations:**
   Schedule a cron job to back up the current crontab:
   ```bash
@@ -153,7 +158,7 @@ Create and manage cron jobs systematically.
 
 ---
 
-### **7. Monitor Automation Health**
+### **8. Monitor Automation Health**
 Set up monitoring to ensure everything runs smoothly.
 
 #### Example: Daily Summary of Logs:
@@ -180,7 +185,7 @@ Set up monitoring to ensure everything runs smoothly.
 
 ---
 
-### **8. Documentation**
+### **9. Documentation**
 Maintain documentation for each script and cron job in a README file:
 ```bash
 ~/automation/README.md
@@ -198,7 +203,7 @@ Maintain documentation for each script and cron job in a README file:
 
 ---
 
-### **9. Security Best Practices**
+### **10. Security Best Practices**
 - **Limit Permissions:**
   - Ensure scripts are executable only by the owner:
     ```bash
@@ -213,7 +218,7 @@ Maintain documentation for each script and cron job in a README file:
 
 ---
 
-### **10. Periodic Maintenance**
+### **11. Periodic Maintenance**
 - **Review and Test Scripts:**
   Test all scripts manually at least once a month.
 - **Clean Up Old Logs:**
