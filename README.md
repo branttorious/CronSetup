@@ -140,7 +140,7 @@ Create and manage cron jobs systematically.
 ---
 
 ### **6. Automating New Script and Cronjob Creation**
-- **Create script to combine steps above
+- **Create script to combine steps above**
 ```bash
 #!/bin/bash
 
@@ -227,6 +227,45 @@ else
     echo "Cron job setup skipped."
 fi
 ```
+
+**Usage: Automating New Script and Cronjob Creation**
+
+    - Create a New Script:
+        Prompts you to specify the name of the new script.
+        Automatically copies a predefined template to the scripts directory (~/automation/scripts/).
+        Makes the new script executable.
+
+    - Edit the Script:
+        Offers the option to open the newly created script in the nano editor for immediate editing.
+        Alternatively, you can edit it later using: nano ~/automation/scripts/<script_name>.sh.
+
+    - Set Up a Cron Job:
+        Prompts you to schedule the script using a cron job for automation.
+        Provides common scheduling options:
+            Every minute
+            Every hour
+            Daily
+            Weekly
+            Monthly
+            Custom schedule (e.g., "0 5 * * 1" for every Monday at 5:00 AM).
+        Adds the cron job to your crontab, using a wrapper script to ensure logging and error handling.
+
+    - Logs Cron Job Creation:
+        Records the cron job details and timestamp in a log file: ~/automation/logs/cron_job_creation.log.
+
+    - Prerequisites:
+        A template script must exist at ~/automation/configs/script_template.sh.
+        The wrapper script for logging and error handling must exist at ~/automation/scripts/cron_wrapper.sh.
+
+    - Example Workflow:
+        - Run the script: ./create_new_script.sh.
+        - Specify the script name (e.g., my_new_script.sh).
+        - Choose whether to edit the script immediately.
+        - Set the frequency for the cron job or enter a custom schedule.
+        - Confirm that the new script is created, and the cron job is logged and ready to execute.
+
+This script simplifies the process of creating, editing, and automating new tasks with robust logging and error-handling mechanisms.
+
 ---
 
 ### **7. Backup and Recovery**
