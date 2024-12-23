@@ -141,7 +141,8 @@ Create and manage cron jobs systematically.
 
 ### **6. Automating New Script and Cronjob Creation**
 - **Create script to combine steps above
-```#!/bin/bash
+```bash
+#!/bin/bash
 
 # Prompt for the new script name
 read -p "Enter the name of the new script (e.g., my_new_script.sh): " script_name
@@ -225,7 +226,7 @@ if [[ "$cron_choice" =~ ^[Yy]$ ]]; then
 else
     echo "Cron job setup skipped."
 fi
-```
+```bash
 ---
 
 ### **7. Backup and Recovery**
