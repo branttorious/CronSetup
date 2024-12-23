@@ -74,7 +74,7 @@ export DB_PASS="your_database_password"
 ```
 
 #### Load the Variables:
-Ensure every script sources this file:
+Ensure every script sources this file: (This is already done if using automated script or copying the templated script)
 ```bash
 source ~/automation/configs/env.sh
 ```
