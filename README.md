@@ -1,6 +1,3 @@
-
-
-```markdown
 # CronSetup
 
 This guide outlines a robust process for creating and managing scripts and cron jobs for an Ubuntu 24 desktop machine functioning as an automation screen. The process integrates best practices for **script management**, **cron job creation**, **logging**, and **maintenance**.
