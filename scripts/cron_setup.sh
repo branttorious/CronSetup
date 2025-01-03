@@ -1,24 +1,27 @@
 #!/bin/bash
 
 # Variables
-REPO_URL="https://github.com/yourusername/automation-setup.git"
+REPO_URL="https://github.com/yourusername/your-repository.git"
 BASE_DIR=~/automation
 LOG_FILE="$BASE_DIR/logs/setup.log"
+CONFIGS_DIR="$BASE_DIR/configs"
+SCRIPTS_DIR="$BASE_DIR/scripts"
+BACKUPS_DIR="$BASE_DIR/backups"
 
 # Log function
 log() {
     echo "[$(date +"%Y-%m-%d %H:%M:%S")] $1" | tee -a "$LOG_FILE"
 }
 
-# Ensure necessary tools are installed
+# Step 1: Install Dependencies
 install_dependencies() {
     log "Installing dependencies..."
     sudo apt update
-    sudo apt install -y git nano logrotate
+    sudo apt install -y git nano logrotate mailutils
     log "Dependencies installed."
 }
 
-# Clone the repository
+# Step 2: Clone Repository
 clone_repository() {
     log "Cloning repository from $REPO_URL..."
     if [ -d "$BASE_DIR" ]; then
@@ -30,26 +33,26 @@ clone_repository() {
     log "Repository cloned to $BASE_DIR."
 }
 
-# Set up directory structure
+# Step 3: Set Up Directory Structure
 setup_directories() {
     log "Setting up directory structure..."
-    mkdir -p "$BASE_DIR/scripts" "$BASE_DIR/logs" "$BASE_DIR/configs" "$BASE_DIR/backups"
+    mkdir -p "$SCRIPTS_DIR" "$CONFIGS_DIR" "$BACKUPS_DIR" "$BASE_DIR/logs"
     log "Directory structure set up."
 }
 
-# Configure environment variables
+# Step 4: Configure Environment Variables
 configure_environment() {
     log "Configuring environment variables..."
-    if [ -f "$BASE_DIR/configs/env.sh" ]; then
-        source "$BASE_DIR/configs/env.sh"
+    if [ -f "$CONFIGS_DIR/env.sh" ]; then
+        source "$CONFIGS_DIR/env.sh"
         log "Environment variables configured."
     else
-        log "Error: env.sh not found in configs. Please check your repository."
+        log "Error: env.sh not found in configs directory."
         exit 1
     fi
 }
 
-# Install logrotate configuration
+# Step 5: Configure Logrotate
 setup_logrotate() {
     log "Setting up logrotate..."
     if [ -f "$BASE_DIR/logrotate/automation" ]; then
@@ -60,15 +63,26 @@ setup_logrotate() {
     fi
 }
 
-# Add example cron jobs
+# Step 6: Set Up Example Cron Jobs
 setup_cron_jobs() {
     log "Adding example cron jobs..."
-    CRON_JOB="* * * * * $BASE_DIR/scripts/cron_wrapper.sh $BASE_DIR/scripts/example_script.sh"
+    CRON_JOB="0 6 * * * $SCRIPTS_DIR/log_summary.sh"
     (crontab -l 2>/dev/null; echo "$CRON_JOB") | crontab -
-    log "Cron job added: $CRON_JOB"
+    log "Example cron job added: $CRON_JOB"
 }
 
-# Run setup steps
+# Step 7: Test Setup
+test_setup() {
+    log "Testing setup..."
+    if [ -d "$BASE_DIR" ] && [ -f "$CONFIGS_DIR/env.sh" ]; then
+        log "Setup completed successfully."
+    else
+        log "Error during setup. Check logs for details."
+        exit 1
+    fi
+}
+
+# Main Script
 main() {
     log "Starting automation setup..."
     install_dependencies
@@ -77,7 +91,8 @@ main() {
     configure_environment
     setup_logrotate
     setup_cron_jobs
-    log "Automation setup completed."
+    test_setup
+    log "Automation setup completed successfully!"
 }
 
 main
